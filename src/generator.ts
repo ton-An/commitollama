@@ -2,6 +2,7 @@ import { config } from './config'
 import { Ollama } from 'ollama'
 import * as vscode from 'vscode'
 import { OLLAMA_URL } from './constants'
+import type { EmojisMap } from './types/llm'
 
 export async function getSummary(diff: string): Promise<string> {
 	const { summaryPrompt, endpoint, summaryTemperature, modelName } =
@@ -78,6 +79,7 @@ export async function getCommitMessage(summaries: string[]) {
 		commitEmojis,
 		modelName,
 		useLowerCase,
+		commitTemplate,
 	} = config.inference
 
 	const ollama = new Ollama({ host: endpoint })
@@ -124,17 +126,20 @@ export async function getCommitMessage(summaries: string[]) {
 		// Handle lower and upper case commit messages
 		const [type, ...messageParts] = commit.split(':')
 		const message = messageParts.join(':').trim()
-		const firstChar = useLowerCase ? message.charAt(0).toLowerCase() : message.charAt(0).toUpperCase()
-		commit = `${type}: ${firstChar}${message.slice(1)}`
+		const commitMessage = useLowerCase
+			? message.charAt(0).toLowerCase() + message.slice(1)
+			: message.charAt(0).toUpperCase() + message.slice(1)
 
-		// Add the emoji to the commit if activated
-		if (useEmojis) {
-			const emojisMap = JSON.parse(JSON.stringify(commitEmojis))
-			for (const [type, emoji] of Object.entries(emojisMap)) {
-				const regex = new RegExp(`\\b${type}\\b`, 'g')
-				commit = commit.replace(regex, `${type} ${emoji}`)
-			}
-		}
+		// Handle emojis
+		const emoji = useEmojis ? commitEmojis?.[type as keyof EmojisMap] : ''
+
+		// Replace placeholders with actual values
+		commit = commitTemplate
+			.replace('{{type}}', type)
+			.replace('{{message}}', commitMessage)
+			.replace('{{emoji}}', emoji)
+			.replace(/\s+/g, ' ') // Replace multiple spaces with single space
+			.replace(/\s+:/g, ':') // Remove space before colon
 
 		// Add files summaries as description if useDescription is activated
 		if (useDescription) {

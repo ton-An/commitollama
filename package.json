@@ -134,6 +134,12 @@
 						"description": "Enable or disable lowercase commit messages.",
 						"default": false,
 						"order": 10
+					},
+					"commitollama.commitTemplate": {
+						"type": "string",
+						"description": "Custom template for commit messages.",
+						"default": "{{type}} {{emoji}}: {{message}}",
+						"order": 11
 					}
 				}
 			}

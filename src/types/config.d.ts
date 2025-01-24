@@ -6,6 +6,7 @@ export type ExtensionConfig = {
 	useDescription: boolean
 	useLowerCase: boolean
 	commitEmojis: EmojisMap
+	commitTemplate: string
 	'custom.endpoint': string
 	'custom.model': string
 	'custom.summaryPrompt': string

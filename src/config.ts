@@ -17,11 +17,14 @@ class Config {
 
 		// Load Emojis config
 		const useEmojis = getConfig('useEmojis') as boolean
-		const commitEmojis = getConfig('commitEmojis') as EmojisMap
+		const commitEmojis = JSON.parse(JSON.stringify(getConfig('commitEmojis'))) as EmojisMap
 		const useDescription = getConfig('useDescription') as boolean
 
 		// Load useLowerCase config
 		const useLowerCase = getConfig('useLowerCase') as boolean
+
+		// Load commitTemplate config
+		const commitTemplate = getConfig('commitTemplate') as string
 
 		// Load endpoint
 		let endpoint = getConfig('custom.endpoint') || defaultConfig.endpoint
@@ -47,6 +50,7 @@ class Config {
 			useEmojis,
 			commitEmojis,
 			useLowerCase,
+			commitTemplate,
 		}
 	}
 }

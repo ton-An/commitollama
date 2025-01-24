@@ -75,22 +75,27 @@ suite('getCommitMessage Tests', () => {
 	}
 
 	let ollamaChatStub: sinon.SinonStub
-	let originalEmojis: any
 	let originalUseEmojis: any
 	let originalUseDescription: any
 	let originalLowerCase: any
+	let originalEmojis: any
+	let originalCommitTemplate: any
+
 	setup(async () => {
 		ollamaChatStub = sinon.stub(ollama.Ollama.prototype, 'chat')
 		// Store original config values
-		originalEmojis = getConfig('commitEmojis')
 		originalUseEmojis = getConfig('useEmojis')
 		originalUseDescription = getConfig('useDescription')
 		originalLowerCase = getConfig('useLowerCase')
+		originalEmojis = getConfig('commitEmojis')
+		originalCommitTemplate = getConfig('commitTemplate')
+
 		// Reset all config values to default
 		await setConfig('useEmojis', false)
 		await setConfig('useDescription', false)
 		await setConfig('useLowerCase', false)
-		await setConfig('commitEmojis', originalEmojis)
+		await setConfig('commitEmojis', JSON.parse('{"feat": "✨","fix": "🐛","docs": "📝","style": "💎","refactor": "♻️","test": "🧪","chore": "📦","revert": "⏪"}'))
+		await setConfig('commitTemplate', "{{type}} {{emoji}}: {{message}}")
 	})
 
 	teardown(async () => {
@@ -100,6 +105,7 @@ suite('getCommitMessage Tests', () => {
 		await setConfig('useDescription', originalUseDescription)
 		await setConfig('useLowerCase', originalLowerCase)
 		await setConfig('commitEmojis', originalEmojis)
+		await setConfig('commitTemplate', originalCommitTemplate)
 	})
 
 	test('Should return a commit message based on summaries', async () => {
@@ -153,5 +159,16 @@ suite('getCommitMessage Tests', () => {
 		assert.strictEqual(result, 'feat: add new feature')
 
 		await setConfig('useLowerCase', originalLowercase!)
+	})
+
+	test('Should format commit message according to template', async () => {
+		ollamaChatStub.resolves(commitMessageResponse)
+		await setConfig('commitTemplate', '{{emoji}}{{type}}: {{message}}')
+		await setConfig('useEmojis', true)
+
+		const result = await getCommitMessage(summariesSample)
+
+		assert.strictEqual(result, '✨feat: Add new feature')
+		await setConfig('commitTemplate', originalCommitTemplate!)
 	})
 })

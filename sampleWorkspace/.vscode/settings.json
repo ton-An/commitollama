@@ -1,6 +1,6 @@
 {
 	"commitollama.commitEmojis": {
-		"feat": "🔥",
+		"feat": "✨",
 		"fix": "🐛",
 		"docs": "📝",
 		"style": "💎",
@@ -11,5 +11,6 @@
 	},
 	"commitollama.useEmojis": true,
 	"commitollama.useDescription": true,
-	"commitollama.useLowerCase": true
+	"commitollama.useLowerCase": true,
+	"commitollama.commitTemplate": "{{type}} {{emoji}}: {{message}}"
 }
