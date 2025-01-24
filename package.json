@@ -146,20 +146,20 @@
 		"publish:patch": "npm run build && vsce publish patch"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.2",
-		"@types/mocha": "10.0.8",
-		"@types/node": "22.7.4",
+		"@biomejs/biome": "1.9.4",
+		"@types/mocha": "10.0.10",
+		"@types/node": "22.10.10",
 		"@types/sinon": "17.0.3",
-		"@types/vscode": "1.93.0",
+		"@types/vscode": "1.96.0",
 		"@vscode/test-cli": "0.0.10",
 		"@vscode/test-electron": "2.4.1",
-		"esbuild": "0.24.0",
-		"mocha": "10.7.3",
+		"esbuild": "0.24.2",
+		"mocha": "11.1.0",
 		"sinon": "19.0.2",
-		"typescript": "5.6.2"
+		"typescript": "5.7.3"
 	},
 	"dependencies": {
-		"ollama": "0.5.9"
+		"ollama": "0.5.12"
 	},
 	"extensionDependencies": [
 		"vscode.git"
