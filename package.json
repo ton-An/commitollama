@@ -128,6 +128,12 @@
 						"description": "Custom temperature for generating the commit message. (Higher number = more creative)",
 						"default": 0.2,
 						"order": 9
+					},
+					"commitollama.useLowerCase": {
+						"type": "boolean",
+						"description": "Enable or disable lowercase commit messages.",
+						"default": false,
+						"order": 10
 					}
 				}
 			}

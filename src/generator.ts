@@ -77,6 +77,7 @@ export async function getCommitMessage(summaries: string[]) {
 		useEmojis,
 		commitEmojis,
 		modelName,
+		useLowerCase,
 	} = config.inference
 
 	const ollama = new Ollama({ host: endpoint })
@@ -119,6 +120,12 @@ export async function getCommitMessage(summaries: string[]) {
 		})
 
 		let commit = response.message.content.replace(/["`]/g, '')
+
+		// Handle lower and upper case commit messages
+		const [type, ...messageParts] = commit.split(':')
+		const message = messageParts.join(':').trim()
+		const firstChar = useLowerCase ? message.charAt(0).toLowerCase() : message.charAt(0).toUpperCase()
+		commit = `${type}: ${firstChar}${message.slice(1)}`
 
 		// Add the emoji to the commit if activated
 		if (useEmojis) {

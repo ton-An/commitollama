@@ -15,10 +15,13 @@ class Config {
 			modelName = getConfig('custom.model') || ''
 		}
 
-		// Load Emojis Config
+		// Load Emojis config
 		const useEmojis = getConfig('useEmojis') as boolean
 		const commitEmojis = getConfig('commitEmojis') as EmojisMap
 		const useDescription = getConfig('useDescription') as boolean
+
+		// Load useLowerCase config
+		const useLowerCase = getConfig('useLowerCase') as boolean
 
 		// Load endpoint
 		let endpoint = getConfig('custom.endpoint') || defaultConfig.endpoint
@@ -43,6 +46,7 @@ class Config {
 			useDescription,
 			useEmojis,
 			commitEmojis,
+			useLowerCase,
 		}
 	}
 }

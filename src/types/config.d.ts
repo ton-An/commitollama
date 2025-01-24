@@ -4,6 +4,7 @@ export type ExtensionConfig = {
 	model: Model
 	useEmojis: boolean
 	useDescription: boolean
+	useLowerCase: boolean
 	commitEmojis: EmojisMap
 	'custom.endpoint': string
 	'custom.model': string

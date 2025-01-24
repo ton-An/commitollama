@@ -75,13 +75,31 @@ suite('getCommitMessage Tests', () => {
 	}
 
 	let ollamaChatStub: sinon.SinonStub
-
-	setup(() => {
+	let originalEmojis: any
+	let originalUseEmojis: any
+	let originalUseDescription: any
+	let originalLowerCase: any
+	setup(async () => {
 		ollamaChatStub = sinon.stub(ollama.Ollama.prototype, 'chat')
+		// Store original config values
+		originalEmojis = getConfig('commitEmojis')
+		originalUseEmojis = getConfig('useEmojis')
+		originalUseDescription = getConfig('useDescription')
+		originalLowerCase = getConfig('useLowerCase')
+		// Reset all config values to default
+		await setConfig('useEmojis', false)
+		await setConfig('useDescription', false)
+		await setConfig('useLowerCase', false)
+		await setConfig('commitEmojis', originalEmojis)
 	})
 
-	teardown(() => {
+	teardown(async () => {
 		ollamaChatStub.restore()
+		// Restore original config values
+		await setConfig('useEmojis', originalUseEmojis)
+		await setConfig('useDescription', originalUseDescription)
+		await setConfig('useLowerCase', originalLowerCase)
+		await setConfig('commitEmojis', originalEmojis)
 	})
 
 	test('Should return a commit message based on summaries', async () => {
@@ -123,5 +141,17 @@ suite('getCommitMessage Tests', () => {
 		)
 
 		await setConfig('useDescription', originalUseDescription!)
+	})
+
+	test('Should lowercase the message if configured to use lowercase', async () => {
+		ollamaChatStub.resolves(commitMessageResponse)
+		const originalLowercase = getConfig('useLowerCase')
+		await setConfig('useLowerCase', true)
+
+		const result = await getCommitMessage(summariesSample)
+
+		assert.strictEqual(result, 'feat: add new feature')
+
+		await setConfig('useLowerCase', originalLowercase!)
 	})
 })
