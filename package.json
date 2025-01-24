@@ -9,7 +9,7 @@
 		"url": "https://github.com/anjerodev/commitollama.git"
 	},
 	"engines": {
-		"vscode": "^1.96.0"
+		"vscode": "^1.90.0"
 	},
 	"categories": [
 		"Machine Learning",
@@ -155,14 +155,15 @@
 		"test": "vscode-test",
 		"publish": "npm run build && vsce publish",
 		"publish:minor": "npm run build && vsce publish minor",
-		"publish:patch": "npm run build && vsce publish patch"
+		"publish:patch": "npm run build && vsce publish patch",
+		"package": "vsce package"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@types/mocha": "10.0.10",
 		"@types/node": "22.10.10",
 		"@types/sinon": "17.0.3",
-		"@types/vscode": "1.96.0",
+		"@types/vscode": "^1.90.0",
 		"@vscode/test-cli": "0.0.10",
 		"@vscode/test-electron": "2.4.1",
 		"esbuild": "0.24.2",
