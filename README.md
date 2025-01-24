@@ -1,6 +1,6 @@
 # Commitollama 🦙
 
-A Github Copilot commits generator free alternative, that run on your device using [ollama][1].
+A free alternative to Github Copilot's commit generator that runs on your device using [ollama][1].
 
 ## Features
 
@@ -31,13 +31,13 @@ A Github Copilot commits generator free alternative, that run on your device usi
 
   `Mistral` (Uses mistral:latest)
 
-  `Custom` - It allow you to write down any other model name from ollama.
+  `Custom` - It allows you to write down any other model name from ollama.
 
-- Use Description: It allow you to enable or disable the use of commit description.
+- Use Description: It allows you to enable or disable the use of commit descriptions.
 
-- Use Emojis: It allow you to enable or disable the use of emojis in commit messages.
+- Use Emojis: It allows you to enable or disable the use of emojis in commit messages.
 
-- Custom Emojis: It allow you to write down the emojis you want to use in the next template object in the VSCode config.json.
+- Custom Emojis: It allows you to write down the emojis you want to use in the next template object in the VSCode config.json.
 
   ```json
    "commitollama.commitEmojis": {
@@ -64,7 +64,7 @@ A Github Copilot commits generator free alternative, that run on your device usi
 
 ## Known Issues
 
-Sometimes can generate quite long commits, but it give you an idea of what the commit should be and can be edited manually to achieve the correct length.
+Sometimes it can generate quite long commits, but it gives you an idea of what the commit should be and can be edited manually to achieve the correct length.
 
 ## Release Notes
 
