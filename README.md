@@ -37,7 +37,7 @@ A free alternative to Github Copilot's commit generator that runs on your device
 
 - Use Emojis: It allows you to enable or disable the use of emojis in commit messages.
 
-- Custom Emojis: It allows you to write down the emojis you want to use in the next template object in the VSCode config.json.
+- Custom Emojis: Allows you to specify the emojis you want to use in the next template object within the VSCode config.json.
 
   ```json
    "commitollama.commitEmojis": {
@@ -62,32 +62,19 @@ A free alternative to Github Copilot's commit generator that runs on your device
 
 - Custom Commit Temperature: The temperature that will be used to generate the commit message.
 
+- Use Lowercase: Enables or disables the use of lowercase at the beginning of commit messages.
+
+- Commit Template: It allows you to write down the commit template you want to use. You should use the following placeholders: 
+  - `{{type}}`: It will be replaced by the type of the commit.
+  - `{{emoji}}`: It will be replaced by the emoji selected in the configuration.
+  - `{{message}}`: It will be replaced by the commit message.
+
+Default value: `{{type}} {{emoji}}: {{message}}`
+  
+
 ## Known Issues
 
-Sometimes it can generate quite long commits, but it gives you an idea of what the commit should be and can be edited manually to achieve the correct length.
-
-## Release Notes
-
-### 1.7.0
-
-- Added support for commit description.
-- Now if a model is not installed, you will have the option to pull it from the notification.
-
-### 1.4.0 to 1.6.0
-
-- Fixes and refactoring.
-
-### 1.3.0
-
-- Added support for emojis.
-
-### 1.2.0
-
-- Added support for custom prompts and llm temperature.
-
-### 1.0.0
-
-- Initial release of commitollama.
+Sometimes, depending on the model used, it can generate quite long commit messages. However, it provides a good starting point for what the commit should be and can be manually edited to achieve the desired length.
 
 [1]: https://ollama.ai/
 [2]: https://raw.githubusercontent.com/jepricreations/commitollama/main/commitollama-demo.gif
