@@ -1,6 +1,6 @@
 import * as vscode from 'vscode'
 import type { GitExtension, Repository } from './types/git'
-import { getCommitMessage, getSummary } from './generator'
+import { getCommitMessage, getScope as getScope, getSummary } from './generator'
 import type { ExtensionConfig } from './types/config'
 
 export function getConfig<K extends keyof ExtensionConfig>(key: K) {
@@ -24,6 +24,12 @@ export async function getSummaryUriDiff(repo: Repository, uri: string) {
 	return summary
 }
 
+export async function getScopeUriDiff(repo: Repository, uri: string) {
+	const diff = await repo.diffIndexWithHEAD(uri)
+	const scope = await getScope(diff)
+	return scope
+}
+
 export async function createCommitMessage(repo: Repository) {
 	vscode.window.withProgress(
 		{
@@ -45,12 +51,18 @@ export async function createCommitMessage(repo: Repository) {
 					)
 				}
 
-				const callbacks = ind.map((change) =>
+				const summaryCallbacks = ind.map((change) =>
 					getSummaryUriDiff(repo, change.uri.fsPath),
 				)
-				const summaries = await Promise.all(callbacks)
+				const scopeCallbacks = ind.map((change) =>
+					getScopeUriDiff(repo, change.uri.fsPath),
+				)
+				const [summaries, scopes] = await Promise.all([
+					Promise.all(summaryCallbacks),
+					Promise.all(scopeCallbacks)
+				])
 
-				const commitMessage = await getCommitMessage(summaries)
+				const commitMessage = await getCommitMessage(summaries, scopes)
 				repo.inputBox.value = commitMessage
 			} catch (error: any) {
 				vscode.window.showErrorMessage(

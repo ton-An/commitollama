@@ -129,17 +129,30 @@
 						"default": 0.2,
 						"order": 9
 					},
+					"commitollama.custom.scopePrompt": {
+						"type": "string",
+						"description": "Custom prompt to generate the scope with.",
+						"order": 10
+					},
+					"commitollama.custom.scopeTemperature": {
+						"type": "number",
+						"minimum": 0,
+						"maximum": 1,
+						"description": "Custom temperature for generating the scope. (Higher number = more creative)",
+						"default": 0.2,
+						"order": 11
+					},
 					"commitollama.useLowerCase": {
 						"type": "boolean",
 						"description": "Enable or disable lowercase commit messages.",
 						"default": false,
-						"order": 10
+						"order": 12
 					},
 					"commitollama.commitTemplate": {
 						"type": "string",
 						"description": "Custom template for commit messages.",
 						"default": "{{type}} {{emoji}}: {{message}}",
-						"order": 11
+						"order": 13
 					}
 				}
 			}

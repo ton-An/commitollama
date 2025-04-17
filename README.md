@@ -65,6 +65,7 @@ A free alternative to Github Copilot's commit generator that runs on your device
 - Use Lowercase: Enables or disables the use of lowercase at the beginning of commit messages.
 
 - Commit Template: It allows you to write down the commit template you want to use. You should use the following placeholders: 
+  - `{{scope}}`: It will be replaced by the scope of the commit.
   - `{{type}}`: It will be replaced by the type of the commit.
   - `{{emoji}}`: It will be replaced by the emoji selected in the configuration.
   - `{{message}}`: It will be replaced by the commit message.

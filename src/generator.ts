@@ -69,7 +69,74 @@ export async function getSummary(diff: string): Promise<string> {
 	}
 }
 
-export async function getCommitMessage(summaries: string[]) {
+export async function getScope(diff: string): Promise<string> {
+	const { scopePrompt, endpoint, scopeTemperature, modelName } =
+		config.inference
+	const ollama = new Ollama({ host: endpoint })
+
+	const defaultScopePrompt = `You are an expert developer specialist in creating commits.
+	Provide a single word scope of the path of the \`git diff\` output following strictly the next rules:
+	- Always use a single lower case word.
+	- Do not use any code snippets, imports or bullets points.
+	- The scope is defined by the file path and is the first folder form the root of the project that makes sense.`
+
+
+	const prompt = scopePrompt || defaultScopePrompt
+
+	const diffPath = diff.split('\n')[0].split(' ')[2]
+	console.log(diffPath)
+
+	try {
+		const res = await ollama.chat({
+			model: modelName,
+			options: {
+				temperature: scopeTemperature,
+			},
+			messages: [
+				{
+					role: 'system',
+					content: prompt,
+				},
+				{
+					role: 'user',
+					content: `Here is the path of the \`git diff\` output: ${diffPath}`,
+				},
+			],
+		})
+
+		return res.message.content
+			.trimStart()
+			.split('\n')
+			.map((v) => v.trim())
+			.join('\n')
+	} catch (error: any) {
+		if (error?.status_code === 404) {
+			const errorMessage =
+				error.message.charAt(0).toUpperCase() + error.message.slice(1)
+
+			vscode.window
+				.showErrorMessage(errorMessage, 'Go to ollama website', 'Pull model')
+				.then((action) => {
+					if (action === 'Go to ollama website') {
+						vscode.env.openExternal(vscode.Uri.parse(OLLAMA_URL))
+					}
+					if (action === 'Pull model') {
+						vscode.commands.executeCommand(
+							'commitollama.runOllamaPull',
+							modelName,
+						)
+					}
+				})
+
+			throw new Error()
+		}
+
+		throw new Error(
+			'Unable to connect to ollama. Please, check that ollama is running.',
+		)
+	}
+}
+export async function getCommitMessage(summaries: string[], scopes: string[]) {
 	const {
 		commitPrompt,
 		endpoint,
@@ -133,8 +200,12 @@ export async function getCommitMessage(summaries: string[]) {
 		// Handle emojis
 		const emoji = useEmojis ? commitEmojis?.[type as keyof EmojisMap] : ''
 
+		// Handle scope
+		const scope = Array.from(new Set(scopes)).sort().join('/')
+
 		// Replace placeholders with actual values
 		commit = commitTemplate
+			.replace('{{scope}}', scope)
 			.replace('{{type}}', type)
 			.replace('{{message}}', commitMessage)
 			.replace('{{emoji}}', emoji)

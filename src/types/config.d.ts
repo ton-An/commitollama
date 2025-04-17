@@ -13,4 +13,7 @@ export type ExtensionConfig = {
 	'custom.summaryTemperature': number
 	'custom.commitPrompt': string
 	'custom.commitTemperature': number
+	'custom.scopePrompt': number
+	'custom.scopeTemperature': number
+
 }

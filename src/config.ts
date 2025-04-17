@@ -39,6 +39,9 @@ class Config {
 		const commitPrompt = getConfig('custom.commitPrompt')
 		const commitTemperature = getConfig('custom.commitTemperature') as number
 
+		const scopePrompt = getConfig('custom.scopePrompt')
+		const scopeTemperature = getConfig('custom.scopeTemperature') as number
+
 		return {
 			endpoint,
 			modelName,
@@ -46,6 +49,8 @@ class Config {
 			summaryTemperature,
 			commitPrompt,
 			commitTemperature,
+			scopePrompt,
+			scopeTemperature,
 			useDescription,
 			useEmojis,
 			commitEmojis,

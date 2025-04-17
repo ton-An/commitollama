@@ -1,17 +1,17 @@
 {
-	"files.exclude": {
-		"out": false
-	},
-	"search.exclude": {
-		"out": true
-	},
-	"typescript.tsc.autoDetect": "off",
-	"cSpell.words": ["commitollama", "ollama"],
-	"editor.defaultFormatter": "biomejs.biome",
-	"[json]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	}
+  "files.exclude": {
+    "out": false
+  },
+  "search.exclude": {
+    "out": true
+  },
+  "typescript.tsc.autoDetect": "off",
+  "cSpell.words": ["commitollama", "ollama"],
+  "editor.defaultFormatter": "biomejs.biome",
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }
